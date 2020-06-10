@@ -6,5 +6,7 @@ until ping -c 1 -W 1 ${DATABASE_HOST:?missing environment variable. DATABASE_HOS
         sleep 1s
 done
 
+sleep 20s
+
 python ./manage.py migrate
 python ./manage.py runserver 0.0.0.0:8000
