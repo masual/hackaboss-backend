@@ -25,7 +25,7 @@ SECRET_KEY = 'ua2!wpgfn*7c$w-0yx%w#^)e$bl$#3iil38joo3rt4s%yf&h_*'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 CORS_ORIGIN_ALLOW_ALL = True
 
