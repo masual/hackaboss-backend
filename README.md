@@ -37,14 +37,14 @@ sudo docker container run -d --name postgresql \
 * Run **Backend**
 
 ```bash
-sudo docker container run -d --name hackaboss_backend \
+sudo docker container run -d --name hackaboss-backend \
  -e DATABASE_NAME=ednonhackaboss \
  -e DATABASE_USER=ednonhackaboss \
  -e DATABASE_PASSWORD=maythe4thbewithyou \
  -e DATABASE_HOST=postgresql \
  -p 8081:8000 \
  --network ednonlabs-network \
-hackaboss_backend:0.0.1
+hackaboss-backend:0.0.1
 ```
 
 :eyes: If you want to test **Frontend** application, you should to take a look at [hackaboss_frontend](https://github.com/masual/hackaboss_frontend).
