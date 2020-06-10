@@ -47,5 +47,5 @@ sudo docker container run -d --name hackaboss-backend \
 hackaboss-backend:0.0.1
 ```
 
-:eyes: If you want to test **Frontend** application, you should to take a look at [hackaboss_frontend](https://github.com/masual/hackaboss_frontend).
+:eyes: If you want to test **Frontend** application, you should to take a look at [hackaboss-frontend](https://github.com/masual/hackaboss-frontend).
 
