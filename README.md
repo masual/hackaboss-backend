@@ -14,7 +14,7 @@ This repository was created with the aim of testing a **Backend** application (*
 - Build **backend container image**
 
 ```bash
-sudo docker build -t hackaboss_backend:0.0.1 -f image/Dockerfile .
+sudo docker build -t hackaboss-backend:0.0.1 -f image/Dockerfile .
 ```
 
 * Create **user-defined bridge network**
@@ -47,5 +47,5 @@ sudo docker container run -d --name hackaboss-backend \
 hackaboss-backend:0.0.1
 ```
 
-:eyes: If you want to test **Frontend** application, you should to take a look at [hackaboss_frontend](https://github.com/masual/hackaboss_frontend).
+:eyes: If you want to test **Frontend** application, you should to take a look at [hackaboss-frontend](https://github.com/masual/hackaboss-frontend).
 
