@@ -11,6 +11,9 @@ EXPOSE 8000
 # Ensures that the python output is sent straight to container log
 ENV PYTHONUNBUFFERED=1
 
+# Install ping to check db is up
+RUN apt update -y && apt install iputils-ping -y
+
 # Upgrade Pip
 RUN pip install --upgrade pip
 
