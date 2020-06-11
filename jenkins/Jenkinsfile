@@ -110,19 +110,8 @@ pipeline {
 
         stage('Test') {
             steps {
+                sh 'docker-compose -f jenkins/docker-compose.yml down backend'
                 sh 'docker-compose -f jenkins/docker-compose.yml up -d backend'
-            }
-        }
-
-        stage('Stop the backend service') {
-            steps {
-                step([$class: 'DockerComposeBuilder', dockerComposeFile: 'jenkins/docker-compose.yml', option: [$class: 'StopService', service: 'backend'], useCustomDockerComposeFile: true])
-            }
-        }
-
-        stage('Start the backend service') {
-            steps {
-                step([$class: 'DockerComposeBuilder', dockerComposeFile: 'jenkins/docker-compose.yml', option: [$class: 'StartService', scale: 1, service: 'backend'], useCustomDockerComposeFile: true])
             }
         }
 
