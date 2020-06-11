@@ -1,0 +1,136 @@
+#!/usr/bin/env groovy
+
+pipeline {
+    options {
+        buildDiscarder(logRotator(numToKeepStr: '10', artifactNumToKeepStr: '10'))
+        timeout(time: 20, unit: 'MINUTES')
+    }
+
+    environment {
+        /* Analisis de codigo/dependencias/imagen */
+        ANALYSIS = "true"
+        /* Git */
+        GIT_TAG = "development"
+        IMAGE_NAME = "ednonlabs.azurecr.io/ednonlabs/hackaboss-backend"
+        /* SonarQube */
+        SCANNER_HOME = tool 'sonar'
+        /* Snyk */
+        SNYK_ORGANISATION = "hackaboss"
+        SNYK_PROJECT_NAME = "hackaboss-backend"
+        SNYK_SEVERITY = "low"
+        SNYK_INSTALLATION = "snyk_home"
+        SNYK_TOKEN = "snyk-token"
+        /* Analizamos dependencias/paquetería */
+        SNYK_TARGET_FILE = "./ednonhackaboss/requirements.txt"
+        /* Analizamos imagen Docker */
+        SNYK_DOCKERFILE = "./image/Dockerfile"
+        /* En caso de error, pipeline de Jenkins continúa */
+        SNYK_FAIL = "false"
+    }
+
+    agent any
+
+    stages {
+
+        stage('Analysis of Code with SonarQube') {
+            when { environment name: 'ANALYSIS', value: 'true' }
+            tools { nodejs "node" }
+            steps {
+                withSonarQubeEnv('sonarqube') {
+                    sh "${env.SCANNER_HOME}/bin/sonar-scanner"
+                }
+            }
+        }
+
+        stage('Analysis of Dependencies with Snyk') {
+            when { environment name: 'ANALYSIS', value: 'true' }
+            steps {
+                snykSecurity(
+                organisation: "${env.SNYK_ORGANISATION}",
+                projectName: "${env.SNYK_PROJECT_NAME}",
+                severity: "${env.SNYK_SEVERITY}",
+                snykInstallation: "${env.SNYK_INSTALLATION}",
+                snykTokenId: "${env.SNYK_TOKEN}",
+                targetFile: "${env.SNYK_TARGET_FILE}",
+                failOnIssues: "${env.SNYK_FAIL}"
+                )
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    image = docker.build("${env.IMAGE_NAME}", "-f image/Dockerfile  .")
+                }
+            }
+        }
+
+        stage('Tag Docker Image') {
+            steps {
+                script {
+                    image.tag("${env.GIT_TAG}")
+                }
+            }
+        }
+
+        stage('Analysis of Docker Image with Snyk') {
+            when { environment name: 'ANALYSIS', value: 'true' }
+            steps {
+                snykSecurity(
+                organisation: "${env.SNYK_ORGANISATION}",
+                projectName: "${env.SNYK_PROJECT_NAME}-image",
+                severity: "${env.SNYK_SEVERITY}",
+                snykInstallation: "${env.SNYK_INSTALLATION}",
+                snykTokenId: "${env.SNYK_TOKEN}",
+                failOnIssues: "${env.SNYK_FAIL}",
+                additionalArguments: "--docker ${env.IMAGE_NAME}:${env.GIT_TAG} --file=${env.SNYK_DOCKERFILE}"
+                )
+            }
+        }
+
+        stage('Push Docker Image to Azure Registry') {
+            steps {
+                script {
+                    withDockerRegistry([ url: "${env.REGISTRY}", credentialsId: "${env.REGISTRY_CREDENTIAL}" ]) {
+                        image.push("${env.GIT_TAG}")
+                    }
+                }
+            }
+        }
+
+        stage('Stop the backend service') {
+            steps {
+                step([$class: 'DockerComposeBuilder', dockerComposeFile: 'jenkins/docker-compose.yml', option: [$class: 'StartService', scale: 1, service: 'backend'], useCustomDockerComposeFile: true])
+            }
+        }
+
+        stage('Start the backend service') {
+            steps {
+                step([$class: 'DockerComposeBuilder', dockerComposeFile: 'jenkins/docker-compose.yml', option: [$class: 'StopService', service: 'backend'], useCustomDockerComposeFile: true])
+            }
+        }
+
+    }
+
+    post {
+
+        success {
+            slackSend (color: 'good', message: "SUCCESSFUL: Job ${env.JOB_NAME} build ${env.BUILD_NUMBER} \n Tag ${env.GIT_TAG} \n More info at: ${env.BUILD_URL}")
+        }
+        failure {
+            slackSend (color: 'danger', message: "FAILURE: Job ${env.JOB_NAME} build ${env.BUILD_NUMBER} \n Tag ${env.GIT_TAG} \n More info at: ${env.BUILD_URL}")
+        }
+        aborted {
+            slackSend (color: 'danger', message: "ABORTED: Job ${env.JOB_NAME} build ${env.BUILD_NUMBER} \n Tag ${env.GIT_TAG} \n More info at: ${env.BUILD_URL}")
+        }
+        unstable { 
+            slackSend (color: 'warning', message: "UNSTABLE: Job ${env.JOB_NAME} build ${env.BUILD_NUMBER} \n Tag ${env.GIT_TAG} \n More info at: ${env.BUILD_URL}")
+        }
+
+        cleanup {
+            cleanWs()
+        }
+
+    }
+
+}
