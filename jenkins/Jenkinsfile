@@ -9,6 +9,9 @@ pipeline {
     environment {
         /* Analisis de codigo/dependencias/imagen */
         ANALYSIS = "true"
+        /* Docker Registry Azure */
+        REGISTRY = "https://ednonlabs.azurecr.io"
+        REGISTRY_CREDENTIAL = "docker-registry-azure"
         /* Git */
         GIT_TAG = "development"
         IMAGE_NAME = "ednonlabs.azurecr.io/ednonlabs/hackaboss-backend"
