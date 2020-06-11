@@ -18,7 +18,7 @@ pipeline {
         /* Snyk */
         SNYK_ORGANISATION = "masual"
         SNYK_PROJECT_NAME = "hackaboss-backend"
-        SNYK_SEVERITY = "low"
+        SNYK_SEVERITY = "high"
         SNYK_INSTALLATION = "snyk_home"
         SNYK_TOKEN = "snyk-token"
         /* Analizamos dependencias/paquetería */
@@ -26,7 +26,7 @@ pipeline {
         /* Analizamos imagen Docker */
         SNYK_DOCKERFILE = "./image/Dockerfile"
         /* En caso de error, pipeline de Jenkins continúa */
-        SNYK_FAIL = "false"
+        SNYK_FAIL = "true"
     }
 
     agent any
