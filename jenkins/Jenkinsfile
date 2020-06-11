@@ -42,18 +42,24 @@ pipeline {
             }
         }
 
+
         stage('Analysis of Dependencies with Snyk') {
             when { environment name: 'ANALYSIS', value: 'true' }
             steps {
-                snykSecurity(
-                organisation: "${env.SNYK_ORGANISATION}",
-                projectName: "${env.SNYK_PROJECT_NAME}",
-                severity: "${env.SNYK_SEVERITY}",
-                snykInstallation: "${env.SNYK_INSTALLATION}",
-                snykTokenId: "${env.SNYK_TOKEN}",
-                targetFile: "${env.SNYK_TARGET_FILE}",
-                failOnIssues: "${env.SNYK_FAIL}"
-                )
+                script {
+                    docker.image('python:3.7-slim').inside() {
+                        sh "pip install -r ${env.SNYK_TARGET_FILE}"
+                        snykSecurity(
+                            organisation: "${env.SNYK_ORGANISATION}",
+                            projectName: "${env.SNYK_PROJECT_NAME}",
+                            severity: "${env.SNYK_SEVERITY}",
+                            snykInstallation: "${env.SNYK_INSTALLATION}",
+                            snykTokenId: "${env.SNYK_TOKEN}",
+                            targetFile: "${env.SNYK_TARGET_FILE}",
+                            failOnIssues: "${env.SNYK_FAIL}"
+                        )
+                    }
+                }
             }
         }
 
@@ -134,3 +140,4 @@ pipeline {
     }
 
 }
+
