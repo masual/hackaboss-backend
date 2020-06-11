@@ -110,7 +110,7 @@ pipeline {
 
         stage('Test') {
             steps {
-                sh 'docker-compose -f jenkins/docker-compose.yml down backend'
+                sh 'docker-compose -f jenkins/docker-compose.yml rm -fsv backend'
                 sh 'docker-compose -f jenkins/docker-compose.yml up -d backend'
             }
         }
