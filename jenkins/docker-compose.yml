@@ -4,7 +4,7 @@ services:
 
   backend:
     container_name: hackaboss-backend
-    image: hackaboss-backend:${env.GIT_TAG}
+    image: hackaboss-backend:${GIT_TAG}
     environment:
      DATABASE_NAME: ednonhackaboss
      DATABASE_USER: ednonhackaboss
