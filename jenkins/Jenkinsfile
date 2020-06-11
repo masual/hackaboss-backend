@@ -14,6 +14,7 @@ pipeline {
         IMAGE_NAME = "ednonlabs.azurecr.io/ednonlabs/hackaboss-backend"
         /* SonarQube */
         SCANNER_HOME = tool 'sonar'
+        SONAR_CONFIG_FILE = "sonar-project.properties"
         /* Snyk */
         SNYK_ORGANISATION = "hackaboss"
         SNYK_PROJECT_NAME = "hackaboss-backend"
