@@ -19,7 +19,7 @@ services:
 
   backend:
     container_name: hackaboss-backend
-    image: hackaboss-backend:${GIT_TAG}
+    image: ednonlabs.azurecr.io/ednonlabs/hackaboss-backend:${GIT_TAG}
     environment:
      DATABASE_NAME: ednonhackaboss
      DATABASE_USER: ednonhackaboss
