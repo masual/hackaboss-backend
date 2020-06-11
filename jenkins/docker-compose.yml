@@ -2,6 +2,21 @@ version: "3.8"
 
 services:
 
+  database:
+    container_name: postgresql
+    image: postgres:9.6.18
+    environment:
+     POSTGRES_DB: ednonhackaboss
+     POSTGRES_USER: ednonhackaboss
+     POSTGRES_PASSWORD: maythe4thbewithyou
+    volumes:
+      - database-data:/var/lib/postgresql/data:rw
+    networks:
+      - ednonlabs-network
+    ports:
+      - "5432:5432"
+    restart: on-failure
+
   backend:
     container_name: hackaboss-backend
     image: hackaboss-backend:${GIT_TAG}
@@ -17,3 +32,27 @@ services:
     ports:
       - "8081:8000"
     restart: on-failure
+
+  frontend:
+    container_name: hackaboss-frontend
+    image: hackaboss-frontend:0.0.1
+    networks:
+      - ednonlabs-network
+    depends_on:
+      - backend
+    ports:
+      - "8080:80"
+    restart: on-failure
+
+networks:
+  ednonlabs-network:
+   driver: bridge
+   name: ednonlabs
+   ipam:
+    config:
+     - subnet: 10.50.0.0/24
+
+volumes:
+  database-data:
+    driver: local
+    name: postgresql
