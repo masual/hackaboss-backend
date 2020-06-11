@@ -16,7 +16,7 @@ pipeline {
         SCANNER_HOME = tool 'sonar'
         SONAR_CONFIG_FILE = "sonar-project.properties"
         /* Snyk */
-        SNYK_ORGANISATION = "hackaboss"
+        SNYK_ORGANISATION = "masual"
         SNYK_PROJECT_NAME = "hackaboss-backend"
         SNYK_SEVERITY = "low"
         SNYK_INSTALLATION = "snyk_home"
