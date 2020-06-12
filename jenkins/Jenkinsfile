@@ -30,6 +30,10 @@ pipeline {
         SNYK_DOCKERFILE = "./image/Dockerfile"
         /* En caso de error, pipeline de Jenkins continúa */
         SNYK_FAIL = "true"
+        /* Backend config for running tests */
+        DATABASE_NAME = "ednonhackaboss"
+        DATABASE_USER = "ednonhackaboss"
+        DATABASE_HOST = "192.168.100.197"
     }
 
     agent any
@@ -41,8 +45,12 @@ pipeline {
                 docker { image 'python:3.7.2' } 
             }
             steps {
-                sh 'pip install -r requirements.txt'
-                sh 'python manage.py test'
+                withCredentials([string(credentialsId: 'hackaboss-backend-access', variable: 'DATABASE_PASSWORD')]) {
+                    sh 'cd ednonhackaboss'
+                    sh 'pip install -r requirements.txt'
+                    sh 'python manage.py migrate'
+                    sh 'python manage.py test'
+                }
             }
             post {
                 always {
