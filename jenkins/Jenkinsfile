@@ -47,13 +47,14 @@ pipeline {
             steps {
                 withCredentials([string(credentialsId: 'hackaboss-backend-access', variable: 'DATABASE_PASSWORD')]) {
                     sh 'pip install -r ./ednonhackaboss/requirements.txt'
-                    sh 'python ./ednonhackaboss/manage.py migrate'
-                    sh 'python ./ednonhackaboss/manage.py test'
+                    sh 'cd ednonhackaboss'
+                    sh 'python manage.py migrate'
+                    sh 'python manage.py test'
                 }
             }
             post {
                 always {
-                    junit 'test-reports/*.xml'
+                    junit 'ednonhackaboss/test-reports/*.xml'
                 }
             }    
         }
