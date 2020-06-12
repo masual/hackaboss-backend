@@ -47,9 +47,10 @@ pipeline {
             steps {
                 withCredentials([string(credentialsId: 'hackaboss-backend-access', variable: 'DATABASE_PASSWORD')]) {
                     sh 'pip install -r ./ednonhackaboss/requirements.txt'
-                    sh 'cd ednonhackaboss'
-                    sh 'python manage.py migrate'
-                    sh 'python manage.py test'
+                    dir('ednonhackaboss'){
+                        sh 'python manage.py migrate'
+                        sh 'python manage.py test'
+                    }
                 }
             }
             post {
