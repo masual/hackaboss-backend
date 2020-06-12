@@ -8,7 +8,7 @@ pipeline {
 
     environment {
         /* Analisis de codigo/dependencias/imagen */
-        ANALYSIS = "false"
+        ANALYSIS = "true"
         /* Docker Registry Azure */
         REGISTRY = "https://ednonlabs.azurecr.io"
         REGISTRY_CREDENTIAL = "docker-registry-azure"
@@ -108,7 +108,7 @@ pipeline {
             }
         }
 
-        stage('Test') {
+        stage('Restart service') {
             steps {
                 sh 'docker-compose -f jenkins/docker-compose.yml rm -fsv backend'
                 sh 'docker-compose -f jenkins/docker-compose.yml up -d backend'
