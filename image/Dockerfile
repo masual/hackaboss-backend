@@ -36,5 +36,8 @@ RUN pip install -r requirements.txt
 # Use an unprivileged user
 USER ednonlabs
 
-# Run our backend
+# Configure PostgreSQL and wait for it
 ENTRYPOINT ["/opt/ednonhackaboss/initdb.sh"]
+
+# We run our App
+CMD ["python", "./manage.py", "runserver", "0.0.0.0:8000"]
