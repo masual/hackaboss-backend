@@ -33,7 +33,7 @@ RUN chmod 755 /opt/ednonhackaboss/initdb.sh
 # Install dependencies
 RUN pip install -r requirements.txt
 
-# Use and unprivileged user
+# Use an unprivileged user
 USER ednonlabs
 
 # Run our backend
