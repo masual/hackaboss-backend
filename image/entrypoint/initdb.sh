@@ -8,5 +8,8 @@ done
 
 sleep 20s
 
+# Migrations are Django’s way of propagating changes you make to your models (adding a field, deleting a model, etc.) into your database schema
 python ./manage.py migrate
-python ./manage.py runserver 0.0.0.0:8000
+
+# Get all parameters from CMD
+exec "$@"
