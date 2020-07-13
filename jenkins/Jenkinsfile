@@ -9,6 +9,7 @@ pipeline {
     environment {
         /* Analisis de codigo/dependencias/imagen */
         ANALYSIS = "false"
+        ANALYSIS_SQ = "true"
         /* Docker Registry Azure */
         REGISTRY = "https://ednonlabs.azurecr.io"
         REGISTRY_CREDENTIAL = "docker-registry-azure"
@@ -64,7 +65,7 @@ pipeline {
         }
 
         stage('Analysis of Code with SonarQube') {
-            when { environment name: 'ANALYSIS', value: 'true' }
+            when { environment name: 'ANALYSIS_SQ', value: 'true' }
             tools { nodejs "node" }
             steps {
                 withSonarQubeEnv('sonarqube') {
