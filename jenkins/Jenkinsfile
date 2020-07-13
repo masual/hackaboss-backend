@@ -8,7 +8,7 @@ pipeline {
 
     environment {
         /* Analisis de codigo/dependencias/imagen */
-        ANALYSIS = "false"
+        ANALYSIS = "true"
         ANALYSIS_SQ = "true"
         /* Docker Registry Azure */
         REGISTRY = "https://ednonlabs.azurecr.io"
@@ -42,23 +42,23 @@ pipeline {
     stages {
 
         stage('Tests') {
+            agent { 
+                docker { image 'python:3.7.2' } 
+            }
             steps {
                 withCredentials([string(credentialsId: 'hackaboss-backend-access', variable: 'DATABASE_PASSWORD')]) {
-                    script {
-                        docker.image('python:3.7-slim').inside() {
-                            sh 'pip install -r ./ednonhackaboss/requirements.txt'
-                            dir('ednonhackaboss'){
-                                sh 'python manage.py migrate'
-                                sh 'coverage erase'
-                                sh 'coverage run --branch --source=compose.models manage.py test'
-                                sh 'coverage xml -i'
-                            }
-                        }
+                    sh 'pip install -r ./ednonhackaboss/requirements.txt'
+                    dir('ednonhackaboss'){
+                        sh 'python manage.py migrate'
+                        sh 'coverage erase'
+                        sh 'coverage run --branch --source=compose.models manage.py test'
+                        sh 'coverage xml -i'
                     }
                 }
             }
             post {
                 always {
+                    archiveArtifacts artifacts: 'ednonhackaboss/coverage.xml'
                     junit 'ednonhackaboss/test-reports/*.xml'
                 }
             }    
