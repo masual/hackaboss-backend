@@ -67,6 +67,7 @@ pipeline {
             tools { nodejs "node" }
             steps {
                 withSonarQubeEnv('sonarqube') {
+                    sh "ls ednonhackaboss"
                     sh "${env.SCANNER_HOME}/bin/sonar-scanner"
                 }
             }
