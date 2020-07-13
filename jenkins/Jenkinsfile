@@ -22,7 +22,7 @@ pipeline {
         /* Snyk */
         SNYK_ORGANISATION = "masual"
         SNYK_PROJECT_NAME = "hackaboss-backend"
-        SNYK_SEVERITY = "high"
+        SNYK_SEVERITY = "low"
         SNYK_INSTALLATION = "snyk_home"
         SNYK_TOKEN = "snyk-token"
         /* Analizamos dependencias/paquetería */
