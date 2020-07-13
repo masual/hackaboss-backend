@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="compose.tests.ComposeTestCase-20200713142750" tests="5" file="compose/tests.py" time="0.049" timestamp="2020-07-13T14:27:51" failures="0" errors="0" skipped="0">
+	<testcase classname="compose.tests.ComposeTestCase" name="test_create_compose" time="0.022" timestamp="2020-07-13T14:27:50" file="compose/tests.py" line="8">
+		<system-out><![CDATA[]]></system-out>
+		<system-err><![CDATA[]]></system-err>
+	</testcase>
+	<testcase classname="compose.tests.ComposeTestCase" name="test_create_compose_with_existing_name" time="0.011" timestamp="2020-07-13T14:27:50" file="compose/tests.py" line="28">
+		<system-out><![CDATA[]]></system-out>
+		<system-err><![CDATA[]]></system-err>
+	</testcase>
+	<testcase classname="compose.tests.ComposeTestCase" name="test_create_compose_without_name" time="0.004" timestamp="2020-07-13T14:27:51" file="compose/tests.py" line="18">
+		<system-out><![CDATA[]]></system-out>
+		<system-err><![CDATA[]]></system-err>
+	</testcase>
+	<testcase classname="compose.tests.ComposeTestCase" name="test_create_compose_without_name_and_yaml" time="0.002" timestamp="2020-07-13T14:27:51" file="compose/tests.py" line="13">
+		<system-out><![CDATA[]]></system-out>
+		<system-err><![CDATA[]]></system-err>
+	</testcase>
+	<testcase classname="compose.tests.ComposeTestCase" name="test_create_compose_without_yaml" time="0.010" timestamp="2020-07-13T14:27:51" file="compose/tests.py" line="23">
+		<system-out><![CDATA[]]></system-out>
+		<system-err><![CDATA[]]></system-err>
+	</testcase>
+</testsuite>
