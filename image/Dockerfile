@@ -33,8 +33,11 @@ RUN chmod 755 /opt/ednonhackaboss/initdb.sh
 # Install dependencies
 RUN pip install -r requirements.txt
 
-# Use and unprivileged user
+# Use an unprivileged user
 USER ednonlabs
 
-# Run our backend
+# Configure PostgreSQL and wait for it
 ENTRYPOINT ["/opt/ednonhackaboss/initdb.sh"]
+
+# We run our App
+CMD ["python", "./manage.py", "runserver", "0.0.0.0:8000"]

@@ -14,7 +14,7 @@ This repository was created with the aim of testing a **Backend** application (*
 - Build **backend container image**
 
 ```bash
-sudo docker build -t hackaboss-backend:0.0.1 -f image/Dockerfile .
+sudo docker image build -t hackaboss-backend:0.0.1 -f image/Dockerfile .
 ```
 
 * Create **user-defined bridge network**
