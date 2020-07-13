@@ -59,7 +59,7 @@ pipeline {
             post {
                 always {
                     archiveArtifacts artifacts: 'ednonhackaboss/coverage.xml'
-                    junit '*.xml'
+                    junit 'ednonhackaboss/test-reports/*.xml'
                 }
             }    
         }
