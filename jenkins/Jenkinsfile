@@ -8,7 +8,7 @@ pipeline {
 
     environment {
         /* Analisis de codigo/dependencias/imagen */
-        ANALYSIS = "true"
+        ANALYSIS = "false"
         /* Docker Registry Azure */
         REGISTRY = "https://ednonlabs.azurecr.io"
         REGISTRY_CREDENTIAL = "docker-registry-azure"
