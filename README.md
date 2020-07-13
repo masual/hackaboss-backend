@@ -49,3 +49,20 @@ hackaboss-backend:0.0.1
 
 :eyes: If you want to test **Frontend** application, you should to take a look at [hackaboss-frontend](https://github.com/masual/hackaboss-frontend).
 
+
+## Development  
+
+### Create Databases
+```bash
+CREATE DATABASE ednonhackaboss;
+CREATE USER ednonhackaboss WITH PASSWORD 'password';
+GRANT ALL PRIVILEGES ON DATABASE ednonhackaboss TO ednonhackaboss;
+ALTER USER ednonhackaboss CREATEDB;
+```
+
+### Coverage
+```bash
+coverage erase
+coverage run --branch --source=compose.models manage.py test
+coverage xml -i
+```
