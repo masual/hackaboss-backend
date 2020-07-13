@@ -30,7 +30,8 @@ pipeline {
         /* Analizamos imagen Docker */
         SNYK_DOCKERFILE = "./image/Dockerfile"
         /* En caso de error, pipeline de Jenkins continúa */
-        SNYK_FAIL = "true"
+        SNYK_FAIL_CODE = "true"
+        SNYK_FAIL_IMAGE = "false"
         /* Backend config for running tests */
         DATABASE_NAME = "ednonhackaboss"
         DATABASE_USER = "ednonhackaboss"
@@ -89,7 +90,7 @@ pipeline {
                             snykInstallation: "${env.SNYK_INSTALLATION}",
                             snykTokenId: "${env.SNYK_TOKEN}",
                             targetFile: "${env.SNYK_TARGET_FILE}",
-                            failOnIssues: "${env.SNYK_FAIL}"
+                            failOnIssues: "${env.SNYK_FAIL_CODE}"
                         )
                     }
                 }
@@ -121,7 +122,7 @@ pipeline {
                 severity: "${env.SNYK_SEVERITY}",
                 snykInstallation: "${env.SNYK_INSTALLATION}",
                 snykTokenId: "${env.SNYK_TOKEN}",
-                failOnIssues: "${env.SNYK_FAIL}",
+                failOnIssues: "${env.SNYK_FAIL_IMAGE}",
                 additionalArguments: "--docker ${env.IMAGE_NAME}:${env.GIT_TAG} --file=${env.SNYK_DOCKERFILE}"
                 )
             }
