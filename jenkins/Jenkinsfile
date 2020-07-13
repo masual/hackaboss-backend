@@ -54,12 +54,12 @@ pipeline {
                         sh 'coverage run --branch --source=compose.models manage.py test'
                         sh 'coverage xml -i'
                         sh 'cp coverage.xml ${WORKSPACE}'
-                      archiveArtifacts 'coverage.xml'
                     }
                 }
             }
             post {
                 always {
+                    archiveArtifacts artifacts: 'ednonhackaboss/coverage.xml'
                     junit 'ednonhackaboss/test-reports/*.xml'
                 }
             }    
