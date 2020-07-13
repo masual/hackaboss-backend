@@ -58,7 +58,6 @@ pipeline {
             post {
                 always {
                     junit 'ednonhackaboss/test-reports/*.xml'
-                    sh 'coverage xml -i'
                 }
             }    
         }
